@@ -1,0 +1,11 @@
+{
+  "name": "luminara",
+  "version": "0.1.0",
+  "description": "An AI story driven, text-based game where Luminors explore a world of infinite possibilities.",
+  "main": "index.js",
+  "scripts": {
+    "start": ""
+  },
+  "author": "Joshua C Belden",
+  "license": "GPL-2.0"
+}
