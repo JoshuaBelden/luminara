@@ -1,4 +1,4 @@
-import storyPacks from 'modules/storyPacks';
+import storyPacks from 'data/storyPacks';
 
 const StoryManager = (story) => ({
   currentStory: story,

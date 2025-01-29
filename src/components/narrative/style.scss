@@ -1,0 +1,15 @@
+.narrative {
+  flex-grow: 1;
+
+  &__container {
+    overflow: auto;
+    
+  }
+  .desc {
+    margin: 8px;
+    background-color: #333;
+    border-radius: 16px;
+    margin: 8px;
+    padding: 12px;
+  }
+}

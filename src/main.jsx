@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import App from 'src/App';
 import Story from 'components/story';
 import Menu from 'components/menu';
-import storyPacks from 'modules/storyPacks';
+import storyPacks from 'data/storyPacks';
 
 import './index.css';
 

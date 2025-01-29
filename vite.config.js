@@ -6,11 +6,10 @@ export default defineConfig({
   resolve: {
     alias: {
       src: '/src',
-      components: '/src/components',
-      modules: '/src/modules',
       assets: '/src/assets',
-      lib: '/src/lib',
+      components: '/src/components',
       data: '/src/data',
+      lib: '/src/lib',
     },
   },
 });

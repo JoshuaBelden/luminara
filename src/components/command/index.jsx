@@ -1,27 +1,25 @@
+import PropTypes from 'prop-types';
 import './style.scss';
 
-import PropTypes from 'prop-types';
-
-function Command({ onPrompt }) {
+function Command({ onPlayerInput }) {
   const handleKeyUp = async (e) => {
     if (e.key !== 'Enter') {
       return;
     }
 
-    // const command = await commandManager.createCommand(e.target.value);
-    onPrompt(e.target.value);
+    onPlayerInput(e.target.value);
     e.target.value = '';
   };
 
   return (
     <div className="command chrome">
-      <input className="input" onKeyUp={handleKeyUp}></input>
+      <input id="playerInput" autoFocus={true} className="input" onKeyUp={handleKeyUp}></input>
     </div>
   );
 }
 
 Command.propTypes = {
-  onPrompt: PropTypes.func.isRequired,
+  onPlayerInput: PropTypes.func.isRequired,
 };
 
 export default Command;
