@@ -1,16 +1,12 @@
-import './App.css'
+import { Outlet } from 'react-router';
+import './App.css';
 
 function App() {
-
   return (
-    <>
-      <div>
-      </div>
-      <h1>Luminara</h1>
-      <div>
-      </div>
-    </>
-  )
+    <div className="app">
+      <Outlet />
+    </div>
+  );
 }
 
-export default App
+export default App;
