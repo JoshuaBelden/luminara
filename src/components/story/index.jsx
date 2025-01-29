@@ -2,15 +2,16 @@ import { useParams } from 'react-router';
 import createStoryManager from 'modules/storyManager';
 import createSceneManager from 'modules/sceneManager';
 import createCharacterManager from 'modules/characterManager';
+import createCommandManager from 'modules/commandManager';
 import Character from 'components/character';
 import Inventory from 'components/inventory';
 import Command from 'components/command';
 import Dialog from 'components/dialog';
 import './style.scss';
+import { useState } from 'react';
 
 function Story() {
-  const storyId = useParams().storyId;
-  const storyManager = createStoryManager(storyId);
+  const storyManager = createStoryManager(useParams().storyId);
   const story = storyManager.currentStory;
 
   const sceneManager = createSceneManager(story.startingScene);
@@ -18,6 +19,26 @@ function Story() {
 
   const characterManager = createCharacterManager();
   const character = characterManager.currentCharacter;
+  
+  const commandManager = createCommandManager(sceneManager.currentScene);
+
+  const [dialog, setDialog] = useState([
+    {
+      isNarrator: true,
+      text: scene.narrative,
+    },
+  ]);
+
+  const onPrompt = async (input) => {
+    
+    const command = await commandManager.createCommand(input);
+    const str = JSON.stringify(command);
+    setDialog([
+      ...dialog,
+      { isNarrator: false, text: input },
+      { isNarrator: true, text: str },
+    ]);
+  }
 
   return (
     <div className="story">
@@ -31,11 +52,11 @@ function Story() {
           <Inventory character={character} />
         </div>
         <div className="story__dialog">
-          <Dialog />
+          <Dialog dialog={dialog} />
         </div>
       </div>
       <div className="story__command">
-        <Command />
+        <Command onPrompt={onPrompt} />
       </div>
     </div>
   );

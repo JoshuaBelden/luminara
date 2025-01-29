@@ -1,12 +1,15 @@
 import './style.scss';
 
-function Command() {
+import PropTypes from 'prop-types';
+
+function Command({ onPrompt }) {
   const handleKeyUp = async (e) => {
     if (e.key !== 'Enter') {
       return;
     }
 
     // const command = await commandManager.createCommand(e.target.value);
+    onPrompt(e.target.value);
     e.target.value = '';
   };
 
@@ -16,5 +19,9 @@ function Command() {
     </div>
   );
 }
+
+Command.propTypes = {
+  onPrompt: PropTypes.func.isRequired,
+};
 
 export default Command;

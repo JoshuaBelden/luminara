@@ -6,7 +6,8 @@
   &__header {
     margin: 16px;
 
-    h2, h3 {
+    h2,
+    h3 {
       display: inline;
     }
   }
@@ -17,14 +18,13 @@
   }
 
   &__tools {
-    width: 225px;
+    min-width: 225px;
   }
 
   &__dialog {
     display: flex;
     flex-grow: 1;
-  }
-
-  &__command {
+    overflow: hidden;
+    height: 85vh;
   }
 }
