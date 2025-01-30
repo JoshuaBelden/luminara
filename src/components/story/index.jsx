@@ -17,7 +17,7 @@ function Story() {
   const [story, setStory] = useState();
   const [scene, setScene] = useState();
   const [character, setCharacter] = useState();
-  const [action, setAction] = useState('');
+  const [lastActionId, setLastActionId] = useState();
   const [narratives, setNarratives] = useState([]);
 
   const actionMaager = useRef();
@@ -43,9 +43,13 @@ function Story() {
         scene,
         character
       );
+
+    if (action) {
+      setLastActionId(action.id);
+    }
+
     setScene(updatedScene);
     setCharacter(updatedCharacter);
-    setAction(action);
     setNarratives(narratives);
   };
 
@@ -61,9 +65,11 @@ function Story() {
         </div>
         <div className="story__dialog">
           <div className="narrative">
-            <div className="narrative__container">
+            <div className="narrative__container chrome">
               {scene && <div className="desc">{scene.narrative}</div>}
-              {action && <Narrative action={action} narratives={narratives} />}
+              {lastActionId && (
+                <Narrative actionId={lastActionId} narratives={narratives} />
+              )}
             </div>
           </div>
         </div>

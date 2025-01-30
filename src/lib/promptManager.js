@@ -1,11 +1,56 @@
 import OpenAI from 'openai';
+import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
-import { buildActionPromptTemplate } from 'data/promptTemplates/action';
 
-const promptManager = () => {
+const promptManager = (actions) => {
   const openAiApiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
-  const completePromptAsync = async (scene, playerInput, ResponseFormatSchema) => {
+  const actionIds = actions.map((action) => action.id);
+  const ActionCompletionSchema = z.object({
+    actionId: z.enum(actionIds),
+    targetId: z.string(),
+  });
+  console.debug(
+    '[Luminara][promptManager] ActionCompletionSchema',
+    ActionCompletionSchema
+  );
+
+  const buildPromptTemplate = (actionPrompts, scene, prompt) => {
+    const pointsOfInterest = scene.pointsOfInterest
+      .map((poi) => ` - ${poi.id}`)
+      .join('\n');
+
+    const interactables = scene.interactables
+      .map((i) => ` - ${i.id}`)
+      .join('\n');
+
+    const discoverables = scene.discoverables
+      .filter((d) => d.discovered)
+      .map((discoverable) => ` - ${discoverable.id}`)
+      .join('\n');
+
+    const promptTemplate = `
+You are a natural language parser for a text-based game. Convert player inputs into a structured format related to the scene information.
+Scene:
+- PointsOfInterest
+${pointsOfInterest}
+- Interactables
+${interactables}
+- Discoverables
+${discoverables}
+Examples:
+${actionPrompts}
+      Player Input: "${prompt}"`;
+
+    console.debug(
+      '[Luminara][promptTemplates::action::buildPrompttemplate] promptTemplate',
+      promptTemplate
+    );
+
+    return promptTemplate;
+  };
+
+  const completePromptAsync = async (scene, playerInput) => {
     if (!openAiApiKey) {
       throw new Error('OpenAI API key is missing');
     }
@@ -15,18 +60,26 @@ const promptManager = () => {
         apiKey: openAiApiKey,
       });
 
-      const actionTemplate = buildActionPromptTemplate(scene, playerInput);
+      const actionPrompts = actions.map((action) => action.prompt).join('\n');
+      const actionTemplate = buildPromptTemplate(
+        actionPrompts,
+        scene,
+        playerInput
+      );
       const completion = await client.chat.completions.create({
         model: 'gpt-4o',
         messages: [{ role: 'user', content: actionTemplate }],
         response_format: zodResponseFormat(
-          ResponseFormatSchema,
-          'ResponseFormatSchema'
+          ActionCompletionSchema,
+          'ActionCompletionSchema'
         ),
       });
 
       const result = JSON.parse(completion.choices[0].message.content);
-      console.debug('[promptManager::completePromptAsync] result', result);
+      console.debug(
+        '[Luminara][promptManager::completePromptAsync] result',
+        result
+      );
 
       return result;
     } catch (e) {
@@ -39,8 +92,8 @@ const promptManager = () => {
   };
 };
 
-const createPromptManager = () => {
-  return promptManager();
+const createPromptManager = (actions) => {
+  return promptManager(actions);
 };
 
 export default createPromptManager;

@@ -2,8 +2,8 @@ import Look from './Look';
 import Examine from './Examine';
 import Search from './Search';
 
-export const getRenderer = (action) => {
-  switch (action) {
+export const getRenderer = (actionId) => {
+  switch (actionId) {
     case 'look':
       return Look;
     case 'examine':

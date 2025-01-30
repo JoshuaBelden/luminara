@@ -1,26 +1,37 @@
 import createPromptManager from './promptManager';
-import { ActionCompletionSchema, actionTransform } from './actions';
+import { actions } from './actions';
 
 const actionManager = () => {
-  const promptManager = createPromptManager();
-
   const executeActionAsync = async (playerInput, scene, character) => {
-    const { action, targetId } = await promptManager.completePromptAsync(
+    const promptManager = createPromptManager(actions);
+    const { actionId, targetId } = await promptManager.completePromptAsync(
       scene,
       playerInput,
-      ActionCompletionSchema
     );
 
-    if (!action || !targetId) {
+    if (!actionId || !targetId) {
       throw new Error('[actionManager::executeActionAsync] Invalid action or targetId');
     }
 
+    
     const targets = [
       ...scene.pointsOfInterest,
       ...scene.interactables,
+      ...scene.discoverables.filter(d => d.discovered),
     ].filter((t) => targetId === 'area' || t.id === targetId);
 
-    const { updatedScene, updatedCharacter, narratives } = actionTransform(action, targets, scene, character);
+    if (!targets.length) {
+      return {
+        action: null,
+        targetId,
+        updatedScene: scene,
+        updatedCharacter: character,
+        narratives: ['You do not find anything of interest.'],
+      };
+    }
+    
+    const action = actions.find((a) => a.id === actionId);
+    const { updatedScene, updatedCharacter, narratives } = action.transform(action, targets, scene, character);
     const executeActionResult = {
       action,
       targetId,
@@ -29,7 +40,7 @@ const actionManager = () => {
       narratives
     };
 
-    console.debug('[actionManager::executeActionAsync] executeActionResult', executeActionResult);
+    console.debug('[Luminara][actionManager::executeActionAsync] executeActionResult', executeActionResult);
     return executeActionResult;
   };
 

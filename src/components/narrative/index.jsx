@@ -3,13 +3,13 @@ import { getRenderer } from './actionRenderers';
 
 import './style.scss';
 
-function Narrative({ action, narratives }) {
-  const Renderer = getRenderer(action);
+function Narrative({ actionId, narratives }) {
+  const Renderer = getRenderer(actionId);
   return <Renderer narratives={narratives} />;
 }
 
 Narrative.propTypes = {
-  action: PropTypes.string.isRequired,
+  actionId: PropTypes.string.isRequired,
   narratives: PropTypes.array.isRequired,
 };
 
