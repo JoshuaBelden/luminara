@@ -7,7 +7,6 @@ import createCharacterManager from 'lib/characterManager';
 import createActionManager from 'lib/actionManager';
 
 import Character from 'components/character';
-import Inventory from 'components/inventory';
 import Command from 'components/command';
 import Narrative from 'components/Narrative';
 
@@ -59,7 +58,6 @@ function Story() {
       <div className="story__container">
         <div className="story__tools">
           {character && <Character character={character} />}
-          {character && <Inventory character={character} />}
         </div>
         <div className="story__dialog">
           <div className="narrative">

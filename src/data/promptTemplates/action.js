@@ -1,4 +1,4 @@
-import { actionDescriptors } from 'lib/actions';
+import { actionPromptDescriptors } from 'lib/actions';
 
 export const buildActionPromptTemplate = (scene, prompt) => {
   const pointsOfInterest = scene.pointsOfInterest
@@ -16,7 +16,7 @@ ${pointsOfInterest}
   - Interactables
 ${interactables}
   Examples:
-${actionDescriptors}
+${actionPromptDescriptors}
   Player Input: "${prompt}"`;
 
   console.debug(

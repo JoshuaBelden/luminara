@@ -1,9 +1,10 @@
 import createPromptManager from './promptManager';
-import { ACTIONS, ActionCompletionSchema } from './actions';
+import { ActionCompletionSchema, actionTransform } from './actions';
 
 const actionManager = () => {
+  const promptManager = createPromptManager();
+
   const executeActionAsync = async (playerInput, scene, character) => {
-    const promptManager = createPromptManager();
     const { action, targetId } = await promptManager.completePromptAsync(
       scene,
       playerInput,
@@ -14,30 +15,22 @@ const actionManager = () => {
       throw new Error('[actionManager::executeActionAsync] Invalid action or targetId');
     }
 
-    const actionTargets = [
+    const targets = [
       ...scene.pointsOfInterest,
       ...scene.interactables,
     ].filter((t) => targetId === 'area' || t.id === targetId);
 
+    const { updatedScene, updatedCharacter, narratives } = actionTransform(action, targets, scene, character);
     const executeActionResult = {
       action,
       targetId,
-      updatedScene: scene,
-      updatedCharacter: character,
+      updatedScene,
+      updatedCharacter,
+      narratives
     };
 
-    switch (action) {
-      case ACTIONS.LOOK:
-        return {
-          ...executeActionResult,
-          narratives: actionTargets.map((t) => t.description),
-        };
-      case ACTIONS.EXAMINE:
-        return {
-          ...executeActionResult,
-          narratives: actionTargets.map((t) => t.narrative),
-        };
-    }
+    console.debug('[actionManager::executeActionAsync] executeActionResult', executeActionResult);
+    return executeActionResult;
   };
 
   return {

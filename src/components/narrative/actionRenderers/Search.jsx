@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-function Noop({ narratives }) {
+function Search({ narratives }) {
   return (
     <div className="desc">
-      <div>You look around and see...</div>
+      <i>You uncover...</i>
       <ul>
         {narratives.map((n, i) => (
           <li key={i}>{n}</li>
@@ -13,8 +13,8 @@ function Noop({ narratives }) {
   );
 }
 
-Noop.propTypes = {
+Search.propTypes = {
   narratives: PropTypes.array.isRequired,
 };
 
-export default Noop;
+export default Search;

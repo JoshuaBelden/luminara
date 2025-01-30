@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 
-function Look({ narratives }) {
+function Examine({ narratives }) {
   return (
     <div className="desc">
-      <div>You look closer and see...</div>
+      <i>You look closer and see...</i>
       <ul>
         {narratives.map((n, i) => (
           <li key={i}>{n}</li>
@@ -13,8 +13,8 @@ function Look({ narratives }) {
   );
 }
 
-Look.propTypes = {
+Examine.propTypes = {
   narratives: PropTypes.array.isRequired,
 };
 
-export default Look;
+export default Examine;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 function Look({ narratives }) {
   return (
     <div className="desc">
-      <div>You look around and see...</div>
+      <i>You look around and see...</i>
       <ul>
         {narratives.map((n, i) => (
           <li key={i}>{n}</li>

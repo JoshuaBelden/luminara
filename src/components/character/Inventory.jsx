@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 
 function Inventory({ character }) {
   return (
-    <div className="inventory chrome">
+    <div className="">
+      <h3>Inventory</h3>
       {character.inventory.map((item, index) => (
-        <div key={index} className="inventory__item">
-          {item.name}
+        <div key={index} className="item">
+          {item.description}
         </div>
       ))}
     </div>
