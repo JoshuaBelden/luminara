@@ -2,6 +2,8 @@ import OpenAI from 'openai';
 import { z } from 'zod';
 import { zodResponseFormat } from 'openai/helpers/zod';
 
+const promptCache = new Map();
+
 const promptManager = (actions) => {
   const openAiApiKey = import.meta.env.VITE_OPENAI_API_KEY;
 
@@ -51,6 +53,11 @@ ${actionPrompts}
   };
 
   const completePromptAsync = async (scene, playerInput) => {
+    if (promptCache.has(playerInput)) {
+      console.debug('[Luminara][promptManager::completePromptAsync] prompt cache hit');
+      return promptCache.get(playerInput);
+    }
+    
     if (!openAiApiKey) {
       throw new Error('OpenAI API key is missing');
     }
@@ -81,6 +88,7 @@ ${actionPrompts}
         result
       );
 
+      promptCache.set(playerInput, result);
       return result;
     } catch (e) {
       console.error(e);
