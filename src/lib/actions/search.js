@@ -1,16 +1,13 @@
 const searchAction = () => {
-  const transform = (action, targets, scene, character) => {
+  const transform = (action, targetId, targets, scene, character) => {
     const actionTransformResult = {
       updatedScene: scene,
       updatedCharacter: character,
       narratives: [],
     };
 
-    const discoverables = scene.discoverables.filter(
-      (d) => d.location === targets[0].id
-    );
-
-    if (!discoverables?.length) {
+    const items = scene.items.filter((d) => d.location === targetId);
+    if (!items?.length) {
       return {
         ...actionTransformResult,
         narratives: ['You do not find anything of interest.'],
@@ -19,21 +16,16 @@ const searchAction = () => {
 
     const updatedScene = {
       ...scene,
-      discoverables: scene.discoverables.map((sceneDiscoverable) => {
-        const found = discoverables.some(
-          (discoverable) => discoverable.id === sceneDiscoverable.id
-        );
-        if (found) {
-          sceneDiscoverable.discovered = true;
-        }
-        return sceneDiscoverable;
+      items: scene.items.map((sceneItem) => {
+        sceneItem.hidden = items.some((i) => i.id === sceneItem.id);
+        return sceneItem;
       }),
     };
 
     return {
       ...actionTransformResult,
       updatedScene,
-      narratives: discoverables.map((d) => d.narrative),
+      narratives: items.map((d) => d.narrative),
     };
   };
 

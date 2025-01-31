@@ -53,11 +53,12 @@ export default {
         interactions: ['examine', 'trace'],
       },
     ],
-    discoverables: [
+    items: [
       {
         id: 'cabin-door-key',
         location: 'porch',
         description: 'A rusty old key',
+        hidden: true,
         narrative:
           'Laying in the dirt beneath the rickety old porch is a key, its surface flaking with rust. It looks fragile but functional.',
       },
@@ -65,6 +66,7 @@ export default {
         id: 'strange-note',
         location: 'well-bucket',
         description: 'A damp, tattered note',
+        hidden: true,
         narrative:
           'Retrieving the bucket reveals a crumpled piece of paper scrawled with unsettling phrases: "Beware the trees. They watch, they listen."',
       },
@@ -72,6 +74,7 @@ export default {
         id: 'shiny-pebble',
         location: 'tree-line',
         description: 'A smooth, shiny pebble',
+        hidden: true,
         narrative:
           'Partially buried at the base of the tree is a small pebble, polished smooth and oddly warm to the touch.',
       },

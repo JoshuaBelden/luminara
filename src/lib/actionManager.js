@@ -13,11 +13,10 @@ const actionManager = () => {
       throw new Error('[actionManager::executeActionAsync] Invalid action or targetId');
     }
 
-    
     const targets = [
       ...scene.pointsOfInterest,
       ...scene.interactables,
-      ...scene.discoverables.filter(d => d.discovered),
+      ...scene.items.filter(d => !d.hidden),
     ].filter((t) => targetId === 'area' || t.id === targetId);
 
     if (!targets.length) {
@@ -31,7 +30,7 @@ const actionManager = () => {
     }
     
     const action = actions.find((a) => a.id === actionId);
-    const { updatedScene, updatedCharacter, narratives } = action.transform(action, targets, scene, character);
+    const { updatedScene, updatedCharacter, narratives } = action.transform(action, targetId, targets, scene, character);
     const executeActionResult = {
       action,
       targetId,

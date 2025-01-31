@@ -2,7 +2,7 @@ const lookAction = () => {
   return {
     id: 'look',
     prompt: `- Input: "Take a look around"/n  Output: '{ actionId: "LOOK", targetId: "area" }'`,
-    transform: (action, targets, scene, character) => {
+    transform: (action, targetId, targets, scene, character) => {
       return {
         updatedScene: scene,
         updatedCharacter: character,

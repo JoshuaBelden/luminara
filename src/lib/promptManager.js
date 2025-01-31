@@ -24,9 +24,9 @@ const promptManager = (actions) => {
       .map((i) => ` - ${i.id}`)
       .join('\n');
 
-    const discoverables = scene.discoverables
-      .filter((d) => d.discovered)
-      .map((discoverable) => ` - ${discoverable.id}`)
+    const items = scene.items
+      .filter((i) => !i.hidden)
+      .map((i) => ` - ${i.id}`)
       .join('\n');
 
     const promptTemplate = `
@@ -36,8 +36,8 @@ Scene:
 ${pointsOfInterest}
 - Interactables
 ${interactables}
-- Discoverables
-${discoverables}
+- Items
+${items}
 Examples:
 ${actionPrompts}
       Player Input: "${prompt}"`;
