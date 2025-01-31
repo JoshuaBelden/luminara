@@ -25,7 +25,7 @@ const actionManager = () => {
         targetId,
         updatedScene: scene,
         updatedCharacter: character,
-        narratives: ['You do not find anything of interest.'],
+        narratives: ['There is nothing of interest.'],
       };
     }
     

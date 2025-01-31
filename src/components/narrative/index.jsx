@@ -9,7 +9,7 @@ function Narrative({ actionId, narratives }) {
 }
 
 Narrative.propTypes = {
-  actionId: PropTypes.string.isRequired,
+  actionId: PropTypes.string,
   narratives: PropTypes.array.isRequired,
 };
 

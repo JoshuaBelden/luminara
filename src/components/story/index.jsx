@@ -44,10 +44,7 @@ function Story() {
         character
       );
 
-    if (action) {
-      setLastActionId(action.id);
-    }
-
+    setLastActionId(action?.id||null);
     setScene(updatedScene);
     setCharacter(updatedCharacter);
     setNarratives(narratives);
@@ -67,9 +64,7 @@ function Story() {
           <div className="narrative">
             <div className="narrative__container chrome">
               {scene && <div className="desc">{scene.narrative}</div>}
-              {lastActionId && (
-                <Narrative actionId={lastActionId} narratives={narratives} />
-              )}
+              <Narrative actionId={lastActionId} narratives={narratives} />
             </div>
           </div>
         </div>

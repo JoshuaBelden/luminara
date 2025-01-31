@@ -1,6 +1,8 @@
 import Look from './Look';
 import Examine from './Examine';
 import Search from './Search';
+import Pickup from './Pickup';
+import NoOp from './NoOp';
 
 export const getRenderer = (actionId) => {
   switch (actionId) {
@@ -10,5 +12,9 @@ export const getRenderer = (actionId) => {
       return Examine;
     case 'search':
       return Search;
+    case 'pickup':
+      return Pickup;
+    default:
+      return NoOp;
   }
 };
